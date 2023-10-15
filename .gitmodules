@@ -1,0 +1,3 @@
+[submodule "WindowsPrep"]
+	path = Scripts/WindowsPrep
+	url = https://github.com/TylerJaacks/WindowsPrep-PowerShell.git
