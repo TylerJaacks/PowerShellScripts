@@ -1,15 +1,6 @@
-oh-my-posh --init --shell pwsh --config D:\config.json | Invoke-Expression
+$PSMRoot = "D:\Documents\Projects\PowerShell\PowerShellScripts\Modules"
 
-# Import the Chocolatey Profile that contains the necessary code to enable
-# tab-completions to function for `choco`.
-# Be aware that if you are missing these lines from your profile, tab completion
-# for `choco` will not function.
-# See https://ch0.co/tab-completion for details.
+oh-my-posh init pwsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/powerlevel10k_modern.omp.json' | Invoke-Expression
 
-$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-
-if (Test-Path($ChocolateyProfile)) {
-  Import-Module "$ChocolateyProfile"
-}
-
-if(Test-Path 'D:\.inshellisense\key-bindings-pwsh.ps1' -PathType Leaf){. D:\.inshellisense\key-bindings-pwsh.ps1}
+Import-Module "$PSMRoot\Remove-EmptyFolders.psm1"
+Import-Module "$PSMRoot\Remove-XboxCredentials.psm1"
