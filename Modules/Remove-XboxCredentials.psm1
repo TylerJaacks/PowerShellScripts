@@ -1,9 +1,4 @@
-﻿$PSMRoot = "D:\Documents\Projects\PowerShell\PowerShellScripts\Modules"
-
-# TODO: Figure out how to replace this with something else.
-Import-Module -DisableNameChecking "$PSMRoot\Manage-StoredCredentials"
-
-@{
+﻿@{
     ModuleName = 'Remove-XboxCredentials'
     ModuleVersion = '1.0.0'
     Author = 'Tyler Jaacks'
@@ -11,15 +6,22 @@ Import-Module -DisableNameChecking "$PSMRoot\Manage-StoredCredentials"
     FunctionsToExport = @('Remove-XboxCredentials')
 }
 function Remove-XboxCredentials {
-    $credentials = Manage-StoredCredentials -ShoCred -All
+	# Retrieve all credentials
+	$Creds = cmdkey /list
 
-    foreach ($cred in $credentials |Where { $_.Target -like "*Xbl*" } ) {
-        Manage-StoredCredentials -DelCred -Target $cred.Target -CredType GENERIC
-    }
+	# Find credentials starting with 'XblGrts|'
+	$CredsToRemove = $Creds -Match "XblGrts\|.*"
 
-    foreach ($cred in $credentials |Where { $_.Target -like "*MCL*" } ) {
-        Manage-StoredCredentials -DelCred -Target $cred.Target -CredType GENERIC
-    }
+	# Remove each matching credential
+	foreach ($Cred in $CredsToRemove) {
+		# Extract the exact credential name
+		$CredName = $Cred -Replace ".*Target: ", ""
+
+		# Remove the credential
+		cmdkey /delete:$CredName
+		
+		Write-Output "Removed: $credName"
+	}
 }
 
 # Export the function to be available to users of the module
