@@ -1,4 +1,5 @@
-﻿@{
+﻿# TODO: Clean up the code no need for two for-loops.
+@{
     ModuleName = 'Remove-XboxCredentials'
     ModuleVersion = '1.0.0'
     Author = 'Tyler Jaacks'
@@ -13,6 +14,19 @@ function Remove-XboxCredentials {
 	$CredsToRemove = $Creds -Match "XblGrts\|.*"
 
 	# Remove each matching credential
+	foreach ($Cred in $CredsToRemove) {
+		# Extract the exact credential name
+		$CredName = $Cred -Replace ".*Target: ", ""
+
+		# Remove the credential
+		cmdkey /delete:$CredName
+		
+		Write-Output "Removed: $credName"
+	}
+	
+	$CredsToRemove = $Creds -Match "MCLMS\|.*"
+	
+		# Remove each matching credential
 	foreach ($Cred in $CredsToRemove) {
 		# Extract the exact credential name
 		$CredName = $Cred -Replace ".*Target: ", ""
