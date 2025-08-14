@@ -1,0 +1,1 @@
+cmd.exe /c "taskkill.exe /f /im explorer.exe && start explorer.exe"
